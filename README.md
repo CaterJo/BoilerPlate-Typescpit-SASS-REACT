@@ -4,4 +4,5 @@
 
 - SASS
 - Typescript
-- REACT
+- React
+- redux
