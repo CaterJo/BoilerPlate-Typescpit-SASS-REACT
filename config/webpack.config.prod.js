@@ -3,6 +3,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+
 module.exports = {
   entry: "./src/index",
   output: {
@@ -36,12 +42,41 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        test: cssRegex,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              // camelCase: true,
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: sassRegex,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              // camelCase: true,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: require.resolve("sass-loader"),
+            options: {
+              sourceMap: true,
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, "../styles")],
+              },
+            },
+          },
+        ],
       },
     ],
   },

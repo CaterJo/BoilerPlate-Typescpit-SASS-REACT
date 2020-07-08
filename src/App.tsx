@@ -1,11 +1,14 @@
 import React from "react";
-import { Route } from "react-router-dom";
-import NotFoundPage from "./pages";
+import { Route, Switch } from "react-router-dom";
+import { NotFoundPage, Home } from "./pages";
 
 const App = function () {
   return (
     <>
-      <Route component={NotFoundPage} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
     </>
   );
 };
